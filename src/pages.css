@@ -1127,3 +1127,73 @@
     margin-bottom: 0.55rem;
   }
 }
+
+/* --- Organismes de tutelle (SNABE, AESAT) --- */
+.orgs {
+  background: var(--cream);
+  padding: clamp(4rem, 8vw, 6.5rem) 0;
+}
+.orgs__head {
+  margin-bottom: 2.4rem;
+  max-width: 60ch;
+}
+.orgs__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+.orgcard {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.orgcard__logo {
+  background: #ffffff;
+  border-right: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.orgcard__logo img {
+  width: 100%;
+  height: auto;
+  max-height: 130px;
+  object-fit: contain;
+}
+.orgcard__body {
+  padding: 1.4rem 1.5rem 1.5rem;
+}
+.orgcard__sous {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--green-deep);
+  margin-bottom: 0.2rem;
+}
+.orgcard__body h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+.orgcard__body p {
+  color: var(--ink-soft);
+  font-size: 0.93rem;
+  margin-bottom: 0.9rem;
+}
+@media (max-width: 860px) {
+  .orgs__grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 480px) {
+  .orgcard {
+    grid-template-columns: 1fr;
+  }
+  .orgcard__logo {
+    aspect-ratio: 16 / 7;
+  }
+}

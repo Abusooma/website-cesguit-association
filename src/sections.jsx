@@ -18,6 +18,7 @@ import {
   MANDATS,
   BUREAU_INTRO,
   ENGAGEMENTS,
+  ORGANISMES,
   REPRESENTATION,
   EVENEMENTS_MAJ,
   EVENTS_2026,
@@ -320,27 +321,38 @@ export function BureauActuel() {
   )
 }
 
-/* ---------------------------------------------------- AFFILIATION AESAT (accueil) */
+/* --------------------------------------- ORGANISMES DE TUTELLE (SNABE, AESAT) */
 export function AesatBand() {
   return (
-    <section className="aesat">
-      <div className="wrap aesat__inner">
-        <Reveal className="aesat__logo" variant="zoom">
-          <img src="/img/logo-aesat.png" alt="A.E.S.A.T" loading="lazy" />
+    <section className="orgs">
+      <div className="wrap">
+        <Reveal className="orgs__head">
+          <span className="kicker">Nos organismes de tutelle</span>
+          <h2 className="section-title">Reconnus, encadrés, accompagnés.</h2>
+          <p className="section-lede">
+            La CESGUIT travaille avec les institutions qui portent les étudiants guinéens : le SNABE
+            pour les bourses, l'AESAT pour la représentation.
+          </p>
         </Reveal>
-        <div className="aesat__text">
-          <span className="kicker">Affiliation</span>
-          <Reveal as="h2" className="section-title">
-            Membre de l'A.E.S.A.T.
-          </Reveal>
-          <Reveal delay={0.06}>
-            <p>
-              La CESGUIT est affiliee a l'Association des Etudiants et Stagiaires Africains en Tunisie.
-              Ensemble, nous portons la voix des etudiants subsahariens et defendons leur bien-etre
-              sur tout le territoire tunisien.
-            </p>
-          </Reveal>
-        </div>
+        <Stagger className="orgs__grid" step={0.12}>
+          {ORGANISMES.map((o) => (
+            <Item className="orgcard" variant="flip" key={o.nom}>
+              <div className="orgcard__logo">
+                <img src={o.logo} alt={o.nom} loading="lazy" />
+              </div>
+              <div className="orgcard__body">
+                <span className="orgcard__sous">{o.sous}</span>
+                <h3>{o.nom}</h3>
+                <p>{o.desc}</p>
+                {o.url ? (
+                  <a className="link-arrow" href={o.url} target="_blank" rel="noreferrer">
+                    Site officiel <b aria-hidden="true">→</b>
+                  </a>
+                ) : null}
+              </div>
+            </Item>
+          ))}
+        </Stagger>
       </div>
     </section>
   )
@@ -605,9 +617,7 @@ export function GuidesBlog() {
               <span className="feature__cat">{feat.cat}</span>
             </Link>
             <div className="feature__body">
-              <span className="feature__date">
-                {feat.date} · {feat.lecture} de lecture
-              </span>
+              <span className="feature__date">{feat.date}</span>
               <h3 className="feature__titre">{feat.titre}</h3>
               <p>{feat.resume}</p>
               <Link className="link-arrow" to={`/guides/${feat.slug}`}>
@@ -626,7 +636,7 @@ export function GuidesBlog() {
               <div className="newsrow__body">
                 <div className="newsrow__top">
                   <span className="newsrow__cat">{a.cat}</span>
-                  <span className="newsrow__date">{a.lecture}</span>
+                  <span className="newsrow__date">{a.date}</span>
                 </div>
                 <h3>
                   <Link to={`/guides/${a.slug}`}>{a.titre}</Link>
@@ -656,9 +666,7 @@ export function ArticleView({ article }) {
           </Link>
           <span className="kicker kicker--ondark">{article.cat}</span>
           <h1 className="article__title">{article.titre}</h1>
-          <p className="article__meta">
-            {article.date} · {article.lecture} de lecture
-          </p>
+          <p className="article__meta">{article.date}</p>
         </div>
         <div className="hero__bar" aria-hidden="true">
           <span style={{ background: 'var(--red)' }} />

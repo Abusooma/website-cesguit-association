@@ -415,6 +415,24 @@ export const ENGAGEMENTS = [
   },
 ]
 
+/* Organismes de tutelle (institutionnels). */
+export const ORGANISMES = [
+  {
+    nom: 'S.N.A.B.E',
+    sous: 'Service National des Bourses Extérieures',
+    logo: '/img/snabe.jpg',
+    desc: "L'organisme guinéen qui attribue, suit et paie les bourses des étudiants à l'étranger. Il accompagne le boursier de son départ jusqu'à l'obtention du diplôme et son retour. La C.A.B de la CESGUIT travaille main dans la main avec lui.",
+    url: 'https://snabe.gov.gn',
+  },
+  {
+    nom: 'A.E.S.A.T',
+    sous: 'Étudiants et Stagiaires Africains en Tunisie',
+    logo: '/img/logo-aesat.png',
+    desc: "L'association faîtière à laquelle la CESGUIT est affiliée. Ensemble, nous portons la voix des étudiants subsahariens et défendons leur bien-être sur tout le territoire tunisien.",
+    url: '',
+  },
+]
+
 /* Représentation institutionnelle. */
 export const REPRESENTATION = [
   { nom: 'A.E.S.A.T', role: "Association des Étudiants et Stagiaires Africains en Tunisie (structuré faîtière)." },
