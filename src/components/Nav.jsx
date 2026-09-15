@@ -5,7 +5,7 @@ import { useJoin } from '../join.jsx'
 
 function Mark() {
   // le vrai emblreme de la CESGUIT, en grand, sans texte
-  return <img className="nav__logo" src="/img/logo-cesguit.png" alt="CESGUIT" width="56" height="56" />
+  return <img className="nav__logo" src="/img/logo-blanc.jpg" alt="CESGUIT" width="56" height="56" />
 }
 
 export default function Nav() {

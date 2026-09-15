@@ -68,7 +68,7 @@ export function Hero() {
   return (
     <section className="hero" id="top">
       <div className="hero__media">
-        <Img src={HOME_MEDIA.hero} eager alt="La communauté CESGUIT réunie" position="center 35%" />
+        <Img src={HOME_MEDIA.hero} eager alt="La communauté CESGUIT réunie" position="center 62%" />
       </div>
       <div className="hero__scrim" />
       <div className="wrap hero__inner">
@@ -558,7 +558,7 @@ export function EvenementsMajeurs() {
           {EVENEMENTS_MAJ.map((e) => (
             <Item className="evmaj__card" variant="tilt" key={e.titre}>
               <span className="evmaj__media">
-                <Img id={e.img} w={720} alt={e.titre} position="center 40%" />
+                <Img src={e.img} alt={e.titre} position="center 40%" />
                 <span className="evmaj__cat">{e.cat}</span>
               </span>
               <div className="evmaj__body">

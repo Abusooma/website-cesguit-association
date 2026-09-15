@@ -10,7 +10,7 @@ export default function Footer() {
       <div className="wrap footer__grid">
         <div className="footer__brand">
           <div className="footer__logo">
-            <img src="/img/logo-cesguit.png" alt="" width="48" height="48" />
+            <img src="/img/logo-blanc.jpg" alt="" width="48" height="48" />
             <strong>{ASSO.sigle}</strong>
           </div>
           <p>{ASSO.nom}. Association à but non lucratif et apolitique, {ASSO.ville}.</p>

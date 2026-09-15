@@ -8,17 +8,9 @@ export default defineConfig({
     host: true,
     port: 5173,
     watch: {
-      // Ne pas surveiller les fichiers medias / dossiers sources : cela evite les
-      // plantages du watcher quand un fichier est verrouille (EBUSY sur Windows,
-      // synchro cloud / antivirus). Ces fichiers restent servis normalement.
-      ignored: [
-        '**/images_evenements/**',
-        '**/assets/**',
-        '**/*.pdf',
-        '**/*.jpg',
-        '**/*.jpeg',
-        '**/*.png',
-      ],
+      // On ignore uniquement les dossiers sources/lourds (pas les medias de public/,
+      // pour qu'ils soient servis a chaud sans redemarrage).
+      ignored: ['**/dist/**', '**/new_pictures_galerie/**'],
     },
   },
 })
