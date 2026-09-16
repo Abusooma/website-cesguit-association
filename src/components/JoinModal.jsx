@@ -2,8 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FORM } from '../data/content.js'
 
+// Cle publique Web3Forms (destinataire : contact.cesguit@gmail.com)
+const WEB3FORMS_KEY = '7c1bcf57-4707-4ddd-b50f-b40048a4f95e'
+
 export default function JoinModal({ open, onClose }) {
   const [sent, setSent] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState('')
   const dialogRef = useRef(null)
 
   useEffect(() => {
@@ -22,15 +27,48 @@ export default function JoinModal({ open, onClose }) {
     }
   }, [open, onClose])
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault()
-    setSent(true)
+    if (sending) return
+    setError('')
+    setSending(true)
+    const form = e.target
+    const data = new FormData(form)
+    data.append('access_key', WEB3FORMS_KEY)
+    const prenom = data.get('Prénom') || ''
+    const nom = data.get('Nom') || ''
+    const universite = data.get('Université') || ''
+    data.append(
+      'subject',
+      `Nouvelle adhésion — ${prenom} ${nom}${universite ? ` (${universite})` : ''}`.trim()
+    )
+    data.append('from_name', 'Adhésions CESGUIT')
+    const email = data.get('Email')
+    if (email) data.append('replyto', email)
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data })
+      const json = await res.json()
+      if (json.success) {
+        setSent(true)
+        form.reset()
+      } else {
+        setError(json.message || "L'envoi a échoué. Merci de réessayer.")
+      }
+    } catch (err) {
+      setError('Connexion impossible. Vérifiez votre réseau et réessayez.')
+    } finally {
+      setSending(false)
+    }
   }
 
   const close = () => {
     onClose()
     // reset après la transition de fermeture
-    setTimeout(() => setSent(false), 350)
+    setTimeout(() => {
+      setSent(false)
+      setError('')
+      setSending(false)
+    }, 350)
   }
 
   return (
@@ -72,29 +110,29 @@ export default function JoinModal({ open, onClose }) {
                   <div className="form__row">
                     <label className="field">
                       <span>Prénom</span>
-                      <input type="text" name="prenom" required autoComplete="given-name" />
+                      <input type="text" name="Prénom" required autoComplete="given-name" />
                     </label>
                     <label className="field">
                       <span>Nom</span>
-                      <input type="text" name="nom" required autoComplete="family-name" />
+                      <input type="text" name="Nom" required autoComplete="family-name" />
                     </label>
                   </div>
 
                   <div className="form__row">
                     <label className="field">
                       <span>Email</span>
-                      <input type="email" name="email" required autoComplete="email" />
+                      <input type="email" name="Email" required autoComplete="email" />
                     </label>
                     <label className="field">
                       <span>WhatsApp</span>
-                      <input type="tel" name="whatsapp" placeholder="+216 ..." />
+                      <input type="tel" name="WhatsApp" placeholder="+216 ..." />
                     </label>
                   </div>
 
                   <div className="form__row">
                     <label className="field">
                       <span>Université</span>
-                      <select name="universite" required defaultValue="">
+                      <select name="Université" required defaultValue="">
                         <option value="" disabled>
                           Choisir...
                         </option>
@@ -105,7 +143,7 @@ export default function JoinModal({ open, onClose }) {
                     </label>
                     <label className="field">
                       <span>Domaine d'étude</span>
-                      <select name="domaine" required defaultValue="">
+                      <select name="Domaine d'étude" required defaultValue="">
                         <option value="" disabled>
                           Choisir...
                         </option>
@@ -119,7 +157,7 @@ export default function JoinModal({ open, onClose }) {
                   <div className="form__row">
                     <label className="field">
                       <span>Niveau</span>
-                      <select name="niveau" required defaultValue="">
+                      <select name="Niveau" required defaultValue="">
                         <option value="" disabled>
                           Choisir...
                         </option>
@@ -130,7 +168,7 @@ export default function JoinModal({ open, onClose }) {
                     </label>
                     <label className="field">
                       <span>Bourse</span>
-                      <select name="bourse" required defaultValue="">
+                      <select name="Bourse" required defaultValue="">
                         <option value="" disabled>
                           Choisir...
                         </option>
@@ -141,11 +179,23 @@ export default function JoinModal({ open, onClose }) {
                     </label>
                   </div>
 
-                  <button type="submit" className="btn btn--red form__submit">
-                    Envoyer mon adhésion
+                  {/* anti-spam (champ piège, cache) */}
+                  <input
+                    type="checkbox"
+                    name="botcheck"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    style={{ display: 'none' }}
+                    aria-hidden="true"
+                  />
+
+                  {error && <p className="form__error">{error}</p>}
+
+                  <button type="submit" className="btn btn--red form__submit" disabled={sending}>
+                    {sending ? 'Envoi en cours…' : 'Envoyer mon adhésion'}
                   </button>
                   <p className="form__note">
-                    Démonstration : aucune donnée n'est envoyée pour l'instant.
+                    Vos informations sont envoyées à la CESGUIT (contact.cesguit@gmail.com).
                   </p>
                 </form>
               </>
@@ -173,8 +223,7 @@ export default function JoinModal({ open, onClose }) {
                   </svg>
                 </h2>
                 <p className="modal__lede">
-                  Votre demande est enregistrée. Un membre du bureau vous contacte très vite. En
-                  attendant, passez nous voir à la permanence : mercredi ou samedi, 15h – 18h.
+                  Votre demande est enregistrée. Un membre du bureau vous contacte très vite.
                 </p>
                 <button className="btn" onClick={close}>
                   Fermer

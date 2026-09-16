@@ -38,7 +38,7 @@ export default function Footer() {
           <h4>Nous joindre</h4>
           <a href={`mailto:${ASSO.email}`}>{ASSO.email}</a>
           <a href={`https://wa.me/${ASSO.whatsapp.replace(/\D/g, '')}`}>WhatsApp · {ASSO.whatsapp}</a>
-          <span className="footer__perm">Permanences : {ASSO.permanences}</span>
+          <a href={`https://wa.me/${ASSO.whatsapp2.replace(/\D/g, '')}`}>WhatsApp · {ASSO.whatsapp2}</a>
           <span className="footer__perm">{ASSO.ville}</span>
         </div>
 

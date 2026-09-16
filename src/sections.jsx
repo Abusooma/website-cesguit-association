@@ -112,7 +112,7 @@ export function APropos() {
         <Reveal className="apropos__media" variant="zoom" y={20}>
           <div className="framed">
             <span className="framed__accent" />
-            <Img src={HOME_MEDIA.apropos} alt="La communauté CESGUIT" className="framed__img" position="center 30%" />
+            <Img src={HOME_MEDIA.apropos} alt="La communauté CESGUIT" className="framed__img" position="center 45%" />
             <div className="framed__badge">
               <strong>33</strong>
               <span>ans de solidarité</span>
@@ -400,7 +400,7 @@ export function Services() {
           <Reveal className="services__media" variant="zoom" delay={0.1} y={20}>
             <div className="framed framed--red">
               <span className="framed__accent" />
-              <Img src={HOME_MEDIA.aide} alt="Entraide et solidarité" className="framed__img" position="center 30%" />
+              <Img src={HOME_MEDIA.aide} alt="Entraide et solidarité" className="framed__img" position="center 45%" />
             </div>
           </Reveal>
         </div>

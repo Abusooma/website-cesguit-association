@@ -10,6 +10,7 @@ export const ASSO = {
   ville: 'Tunis, Tunisie',
   email: 'contact.cesguit@gmail.com',
   whatsapp: '+216 46 89 58 75',
+  whatsapp2: '+216 46 51 33 98',
   permanences: 'Mercredi & Samedi, 15h – 18h',
   reseaux: [
     { nom: 'Facebook', url: 'https://facebook.com' },
@@ -233,7 +234,7 @@ export const HOME_MEDIA = {
 /* La galerie : toutes les vraies photos de la CESGUIT (mosaique masonry).
    55 images servies depuis /public/img/galerie (g01.jpg ... g55.jpg). */
 export const GALERIE = Array.from(
-  { length: 55 },
+  { length: 86 },
   (_, i) => `/img/galerie/g${String(i + 1).padStart(2, '0')}.jpg`
 )
 
@@ -335,7 +336,7 @@ export const FORM = {
     'Lettres & Sciences humaines',
     'Autre',
   ],
-  niveaux: ['BTS', 'L1', 'L2', 'L3', 'Master', 'Doctorat', 'Prépa', 'Stagiaire'],
+  niveaux: ['BTS', 'L1', 'L2', 'L3', "Cycle d'ingénieur", 'Master', 'Doctorat', 'Prépa', 'Stagiaire'],
   bourses: ['Bourse du gouvernement', 'Autre bourse', 'Sur fonds propres'],
 }
 
