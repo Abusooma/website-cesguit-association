@@ -56,6 +56,12 @@ export default function Footer() {
         <span>
           © {new Date().getFullYear()} {ASSO.sigle} · Association à but non lucratif, Tunis.
         </span>
+        <span className="footer__credit">
+          Site conçu par{' '}
+          <a href="https://agencetek.com/" target="_blank" rel="noreferrer">
+            AgenceTek
+          </a>
+        </span>
       </div>
     </footer>
   )

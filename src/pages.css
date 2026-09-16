@@ -1214,3 +1214,15 @@
   transform: none;
   box-shadow: none;
 }
+
+/* --- Credit agence (footer) --- */
+.footer__credit {
+  color: rgba(255, 255, 255, 0.55);
+}
+.footer__credit a {
+  color: #fff;
+  font-weight: 600;
+}
+.footer__credit a:hover {
+  color: var(--gold);
+}
