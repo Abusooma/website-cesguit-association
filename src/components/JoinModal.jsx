@@ -2,9 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FORM } from '../data/content.js'
 
-// Cle publique Web3Forms (destinataire : contact.cesguit@gmail.com)
-const WEB3FORMS_KEY = '7c1bcf57-4707-4ddd-b50f-b40048a4f95e'
-
 export default function JoinModal({ open, onClose }) {
   const [sent, setSent] = useState(false)
   const [sending, setSending] = useState(false)
@@ -34,21 +31,25 @@ export default function JoinModal({ open, onClose }) {
     setSending(true)
     const form = e.target
     const data = new FormData(form)
-    data.append('access_key', WEB3FORMS_KEY)
-    const prenom = data.get('Prénom') || ''
-    const nom = data.get('Nom') || ''
-    const universite = data.get('Université') || ''
-    data.append(
-      'subject',
-      `Nouvelle adhésion — ${prenom} ${nom}${universite ? ` (${universite})` : ''}`.trim()
-    )
-    data.append('from_name', 'Adhésions CESGUIT')
-    const email = data.get('Email')
-    if (email) data.append('replyto', email)
+    const payload = {
+      prenom: data.get('Prénom') || '',
+      nom: data.get('Nom') || '',
+      email: data.get('Email') || '',
+      whatsapp: data.get('WhatsApp') || '',
+      universite: data.get('Université') || '',
+      domaine: data.get("Domaine d'étude") || '',
+      niveau: data.get('Niveau') || '',
+      bourse: data.get('Bourse') || '',
+      botcheck: data.get('botcheck') ? true : false,
+    }
     try {
-      const res = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: data })
-      const json = await res.json()
-      if (json.success) {
+      const res = await fetch('/api/adhesion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const json = await res.json().catch(() => ({}))
+      if (res.ok && json.success) {
         setSent(true)
         form.reset()
       } else {
