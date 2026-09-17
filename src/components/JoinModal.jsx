@@ -196,7 +196,7 @@ export default function JoinModal({ open, onClose }) {
                     {sending ? 'Envoi en cours…' : 'Envoyer mon adhésion'}
                   </button>
                   <p className="form__note">
-                    Vos informations sont envoyées à la CESGUIT (contact.cesguit@gmail.com).
+                    Vos informations restent confidentielles.
                   </p>
                 </form>
               </>

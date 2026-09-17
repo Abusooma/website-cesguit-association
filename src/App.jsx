@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom'
+import { useLayoutEffect, useState } from 'react'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import './App.css'
 import './pages.css'
 import Nav from './components/Nav.jsx'
@@ -23,7 +23,10 @@ import {
 
 function ScrollToTop() {
   const { pathname } = useLocation()
-  useEffect(() => {
+  // useLayoutEffect : on remet le scroll en haut AVANT que le navigateur peigne,
+  // donc avant que framer-motion évalue whileInView. Sinon les sections encore
+  // « en vue » pendant le reset déclenchent leurs reveals à vide.
+  useLayoutEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' in window ? 'instant' : 'auto' })
   }, [pathname])
   return null
@@ -64,8 +67,8 @@ function Layout() {
 
 export default function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Layout />
-    </HashRouter>
+    </BrowserRouter>
   )
 }

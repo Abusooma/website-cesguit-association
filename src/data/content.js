@@ -233,10 +233,10 @@ export const HOME_MEDIA = {
 
 /* La galerie : toutes les vraies photos de la CESGUIT (mosaique masonry).
    55 images servies depuis /public/img/galerie (g01.jpg ... g55.jpg). */
-export const GALERIE = Array.from(
-  { length: 86 },
-  (_, i) => `/img/galerie/g${String(i + 1).padStart(2, '0')}.jpg`
-)
+const GALERIE_EXCLUS = new Set([70, 73, 81])
+export const GALERIE = Array.from({ length: 116 }, (_, i) => i + 1)
+  .filter((n) => !GALERIE_EXCLUS.has(n))
+  .map((n) => `/img/galerie/g${String(n).padStart(2, '0')}.jpg`)
 
 export const OPPORTUNITES = [
   { type: 'Bourse', titre: "Bourse d'excellence 2026-2027", meta: 'Candidature avant le 30 sept.' },
