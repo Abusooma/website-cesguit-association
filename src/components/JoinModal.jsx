@@ -6,6 +6,9 @@ export default function JoinModal({ open, onClose }) {
   const [sent, setSent] = useState(false)
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
+  // suivis pour afficher un champ libre quand « Autre » est choisi
+  const [univ, setUniv] = useState('')
+  const [domaine, setDomaine] = useState('')
   const dialogRef = useRef(null)
 
   useEffect(() => {
@@ -31,13 +34,18 @@ export default function JoinModal({ open, onClose }) {
     setSending(true)
     const form = e.target
     const data = new FormData(form)
+    // si « Autre » : on transmet la valeur saisie librement
+    const universite =
+      univ === 'Autre' ? (data.get('UniversiteAutre') || '').toString().trim() : univ
+    const domaineVal =
+      domaine === 'Autre' ? (data.get('DomaineAutre') || '').toString().trim() : domaine
     const payload = {
       prenom: data.get('Prénom') || '',
       nom: data.get('Nom') || '',
       email: data.get('Email') || '',
       whatsapp: data.get('WhatsApp') || '',
-      universite: data.get('Université') || '',
-      domaine: data.get("Domaine d'étude") || '',
+      universite,
+      domaine: domaineVal,
       niveau: data.get('Niveau') || '',
       bourse: data.get('Bourse') || '',
       botcheck: data.get('botcheck') ? true : false,
@@ -52,6 +60,8 @@ export default function JoinModal({ open, onClose }) {
       if (res.ok && json.success) {
         setSent(true)
         form.reset()
+        setUniv('')
+        setDomaine('')
       } else {
         setError(json.message || "L'envoi a échoué. Merci de réessayer.")
       }
@@ -69,6 +79,8 @@ export default function JoinModal({ open, onClose }) {
       setSent(false)
       setError('')
       setSending(false)
+      setUniv('')
+      setDomaine('')
     }, 350)
   }
 
@@ -108,7 +120,7 @@ export default function JoinModal({ open, onClose }) {
                 </p>
 
                 <form className="form" onSubmit={submit}>
-                  <div className="form__row">
+                  <div className="form__row form__row--pair">
                     <label className="field">
                       <span>Prénom</span>
                       <input type="text" name="Prénom" required autoComplete="given-name" />
@@ -119,7 +131,7 @@ export default function JoinModal({ open, onClose }) {
                     </label>
                   </div>
 
-                  <div className="form__row">
+                  <div className="form__row form__row--pair">
                     <label className="field">
                       <span>Email</span>
                       <input type="email" name="Email" required autoComplete="email" />
@@ -133,7 +145,12 @@ export default function JoinModal({ open, onClose }) {
                   <div className="form__row">
                     <label className="field">
                       <span>Université</span>
-                      <select name="Université" required defaultValue="">
+                      <select
+                        name="Université"
+                        required
+                        value={univ}
+                        onChange={(e) => setUniv(e.target.value)}
+                      >
                         <option value="" disabled>
                           Choisir...
                         </option>
@@ -144,7 +161,12 @@ export default function JoinModal({ open, onClose }) {
                     </label>
                     <label className="field">
                       <span>Domaine d'étude</span>
-                      <select name="Domaine d'étude" required defaultValue="">
+                      <select
+                        name="Domaine d'étude"
+                        required
+                        value={domaine}
+                        onChange={(e) => setDomaine(e.target.value)}
+                      >
                         <option value="" disabled>
                           Choisir...
                         </option>
@@ -155,7 +177,43 @@ export default function JoinModal({ open, onClose }) {
                     </label>
                   </div>
 
-                  <div className="form__row">
+                  <AnimatePresence initial={false}>
+                    {(univ === 'Autre' || domaine === 'Autre') && (
+                      <motion.div
+                        className="form__row form__row--autre"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                      >
+                        {univ === 'Autre' && (
+                          <label className="field">
+                            <span>Nom de votre université</span>
+                            <input
+                              type="text"
+                              name="UniversiteAutre"
+                              required
+                              autoFocus
+                              placeholder="Ex. Université de Sousse"
+                            />
+                          </label>
+                        )}
+                        {domaine === 'Autre' && (
+                          <label className="field">
+                            <span>Précisez votre domaine</span>
+                            <input
+                              type="text"
+                              name="DomaineAutre"
+                              required
+                              placeholder="Ex. Pharmacie"
+                            />
+                          </label>
+                        )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                  <div className="form__row form__row--pair">
                     <label className="field">
                       <span>Niveau</span>
                       <select name="Niveau" required defaultValue="">

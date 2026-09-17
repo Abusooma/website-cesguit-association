@@ -23,11 +23,17 @@ import {
 
 function ScrollToTop() {
   const { pathname } = useLocation()
-  // useLayoutEffect : on remet le scroll en haut AVANT que le navigateur peigne,
-  // donc avant que framer-motion évalue whileInView. Sinon les sections encore
-  // « en vue » pendant le reset déclenchent leurs reveals à vide.
+  // Au changement de page, on doit revenir en haut d'un SAUT INSTANTANÉ.
+  // Le CSS applique `html { scroll-behavior: smooth }` : si le reset défile en
+  // douceur, il traverse toute la page et déclenche au passage les reveals
+  // `whileInView` (once:true) des sections — hors écran. Résultat : plus aucune
+  // animation quand l'utilisateur scrolle ensuite. On neutralise donc le smooth
+  // le temps du saut, puis on le restaure (utile pour les ancres internes).
   useLayoutEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' in window ? 'instant' : 'auto' })
+    // behavior:'instant' force le saut immédiat en ignorant le CSS
+    // `scroll-behavior: smooth`. (L'ancien test `'instant' in window` valait
+    // toujours false et retombait sur 'auto', d'où le défilement lent.)
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
   }, [pathname])
   return null
 }

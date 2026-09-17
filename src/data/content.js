@@ -233,7 +233,7 @@ export const HOME_MEDIA = {
 
 /* La galerie : toutes les vraies photos de la CESGUIT (mosaique masonry).
    55 images servies depuis /public/img/galerie (g01.jpg ... g55.jpg). */
-const GALERIE_EXCLUS = new Set([70, 73, 81])
+const GALERIE_EXCLUS = new Set([56, 70, 73, 77, 81])
 export const GALERIE = Array.from({ length: 116 }, (_, i) => i + 1)
   .filter((n) => !GALERIE_EXCLUS.has(n))
   .map((n) => `/img/galerie/g${String(n).padStart(2, '0')}.jpg`)

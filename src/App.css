@@ -1160,13 +1160,21 @@
 }
 .form__row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* minmax(0,1fr) : autorise les colonnes à rétrécir sous la largeur mini
+     intrinsèque des <input>/<select> (sinon débordement sur petit écran) */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0.85rem;
+}
+/* ligne du champ libre « Autre » : pleine largeur + repli propre de l'animation */
+.form__row--autre {
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
 }
 .field {
   display: flex;
   flex-direction: column;
   gap: 0.32rem;
+  min-width: 0;
 }
 .field span {
   font-size: 0.82rem;
@@ -1182,6 +1190,9 @@
   border-radius: 0;
   border: 1.5px solid var(--line);
   background: #fff;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease);
 }
 .field input:focus,
@@ -1326,6 +1337,22 @@
   .actus__list,
   .form__row {
     grid-template-columns: 1fr;
+  }
+  /* mais on garde les paires courtes côte à côte : formulaire moins long à scroller */
+  .form__row--pair {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 0.6rem;
+  }
+  .form {
+    gap: 0.6rem;
+  }
+  /* moins de « respiration » perdue en haut/bas de la carte sur petit écran */
+  .modal__card {
+    padding: 1.5rem 1.15rem;
+  }
+  .modal__lede {
+    margin-bottom: 1rem;
+    font-size: 0.92rem;
   }
   .footer__grid {
     grid-template-columns: 1fr;
